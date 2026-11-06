@@ -73,7 +73,8 @@ export function Navbar() {
           <Link
             href="/sign-up"
             className={buttonVariants({
-              className: "h-9 bg-indigo-600 px-4 text-white hover:bg-indigo-500",
+              className:
+                "h-9 bg-indigo-600 px-4 text-white hover:bg-indigo-500",
             })}
           >
             Get Started
@@ -110,10 +111,7 @@ export function Navbar() {
               </SheetDescription>
             </SheetHeader>
 
-            <nav
-              aria-label="Mobile"
-              className="flex flex-col gap-1 px-4 py-4"
-            >
+            <nav aria-label="Mobile" className="flex flex-col gap-1 px-4 py-4">
               {navLinks.map((link) => (
                 <SheetClose
                   key={link.href}
