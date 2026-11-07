@@ -29,17 +29,17 @@ export function SearchForm() {
   }
 
   return (
-    <div className="w-full max-w-2xl">
+    <div className="w-full max-w-3xl">
       <form
         onSubmit={handleSubmit}
         role="search"
         aria-label="Job search"
-        className="flex flex-col gap-2 rounded-2xl border border-border bg-card/70 p-2 backdrop-blur sm:flex-row sm:items-center sm:gap-0"
+        className="flex flex-col gap-2 rounded-2xl border border-white/10 bg-[#0d0d16]/80 p-2 shadow-[0_18px_50px_-20px_rgba(0,0,0,0.9)] backdrop-blur sm:flex-row sm:items-center sm:gap-0"
       >
         <div className="flex flex-1 items-center gap-3 px-3">
           <SearchIcon
             aria-hidden="true"
-            className="size-4 shrink-0 text-muted-foreground"
+            className="size-4 shrink-0 text-slate-500"
           />
           <Input
             type="search"
@@ -48,17 +48,20 @@ export function SearchForm() {
             onChange={(event) => setQuery(event.target.value)}
             placeholder="Job title, skill or company"
             aria-label="Job title, skill or company"
-            className="h-10 flex-1 border-0 bg-transparent px-0 shadow-none focus-visible:border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+            className="h-10 flex-1 border-0 bg-transparent px-0 text-slate-100 shadow-none placeholder:text-slate-500 focus-visible:border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
           />
         </div>
 
-        <Separator orientation="vertical" className="hidden h-8 sm:block" />
-        <Separator className="sm:hidden" />
+        <Separator
+          orientation="vertical"
+          className="hidden h-8 bg-white/10 sm:block"
+        />
+        <Separator className="bg-white/10 sm:hidden" />
 
         <div className="flex flex-1 items-center gap-3 px-3">
           <MapPinIcon
             aria-hidden="true"
-            className="size-4 shrink-0 text-muted-foreground"
+            className="size-4 shrink-0 text-slate-500"
           />
           <Input
             type="search"
@@ -67,7 +70,7 @@ export function SearchForm() {
             onChange={(event) => setLocation(event.target.value)}
             placeholder="Location or Remote"
             aria-label="Location or Remote"
-            className="h-10 flex-1 border-0 bg-transparent px-0 shadow-none focus-visible:border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+            className="h-10 flex-1 border-0 bg-transparent px-0 text-slate-100 shadow-none placeholder:text-slate-500 focus-visible:border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
           />
         </div>
 
@@ -81,15 +84,13 @@ export function SearchForm() {
       </form>
 
       <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
-        <span className="mr-1 text-sm text-muted-foreground">
-          Trending Position
-        </span>
+        <span className="mr-1 text-sm text-slate-500">Trending Position</span>
         {trendingPositions.map((position) => (
           <button
             key={position}
             type="button"
             onClick={() => setQuery(position)}
-            className="rounded-lg border border-border bg-muted/50 px-3 py-1.5 text-[13px] font-medium text-foreground/90 transition-colors hover:bg-muted hover:text-foreground"
+            className="rounded-lg border border-white/10 bg-white/[0.04] px-3 py-1.5 text-[13px] font-medium text-slate-300 transition-colors hover:bg-white/10 hover:text-white"
           >
             {position}
           </button>
