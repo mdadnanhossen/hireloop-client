@@ -10,10 +10,23 @@ import { Separator } from "@/components/ui/separator"
 
 type AuthFormMode = "sign-in" | "sign-up"
 
+export type UserRole = "seeker" | "recruiter" | "admin"
+
 export interface AuthFormValues {
   name?: string
   email: string
   password: string
+  role?: UserRole
+}
+
+const SIGN_UP_ROLES: { value: UserRole; label: string; hint: string }[] = [
+  { value: "seeker", label: "Job seeker", hint: "Looking for work" },
+  { value: "recruiter", label: "Recruiter", hint: "Hiring talent" },
+  { value: "admin", label: "Admin", hint: "Manage platform" },
+]
+
+function isUserRole(value?: string): value is UserRole {
+  return SIGN_UP_ROLES.some((role) => role.value === value)
 }
 
 interface AuthFormProps {
@@ -44,10 +57,16 @@ export function AuthForm({ mode, onSubmit }: AuthFormProps) {
       return
     }
 
+    if (!isSignIn && !isUserRole(values.role)) {
+      setError("Please choose whether you're a job seeker, recruiter or admin.")
+      return
+    }
+
     const data: AuthFormValues = {
       name: values.name,
       email: values.email,
       password: values.password,
+      role: isSignIn ? undefined : (values.role as UserRole),
     }
 
     setError(null)
@@ -109,6 +128,37 @@ export function AuthForm({ mode, onSubmit }: AuthFormProps) {
                 disabled={pending}
               />
             </div>
+          )}
+
+          {!isSignIn && (
+            <fieldset className="space-y-1.5">
+              <legend className="text-sm font-medium text-foreground">
+                I am signing up as
+              </legend>
+              <div className="grid grid-cols-3 gap-2">
+                {SIGN_UP_ROLES.map((option, index) => (
+                  <label key={option.value} className="cursor-pointer">
+                    <input
+                      type="radio"
+                      name="role"
+                      value={option.value}
+                      defaultChecked={index === 0}
+                      required
+                      disabled={pending}
+                      className="peer sr-only"
+                    />
+                    <span className="flex h-full flex-col items-center gap-0.5 rounded-lg border border-input px-2 py-2.5 text-center transition-colors hover:border-ring peer-checked:border-indigo-500 peer-checked:bg-indigo-500/10 peer-checked:text-indigo-500 peer-focus-visible:ring-3 peer-focus-visible:ring-indigo-500/40 peer-disabled:pointer-events-none peer-disabled:opacity-50">
+                      <span className="text-sm font-medium">
+                        {option.label}
+                      </span>
+                      <span className="text-[11px] leading-tight text-muted-foreground">
+                        {option.hint}
+                      </span>
+                    </span>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
           )}
 
           <div className="space-y-1.5">

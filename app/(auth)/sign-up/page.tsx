@@ -1,22 +1,23 @@
 "use client"
 
-import { AuthForm } from "@/components/auth-form"
+import { AuthForm, type AuthFormValues } from "@/components/auth-form"
 import { authClient } from "@/lib/auth-client"
 
 const SignUpPage = () => {
-  const handleSignUp = async (data: {
-    name?: string
-    email: string
-    password: string
-  }) => {
+  const handleSignUp = async (data: AuthFormValues) => {
     if (!data.name) {
       throw new Error("Name is required.")
+    }
+
+    if (!data.role) {
+      throw new Error("Please choose an account type.")
     }
 
     const { data: signUpResponse, error } = await authClient.signUp.email({
       name: data.name,
       email: data.email,
       password: data.password,
+      role: data.role,
     })
 
     if (error) {
