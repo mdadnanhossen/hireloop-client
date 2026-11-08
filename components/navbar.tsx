@@ -18,6 +18,8 @@ import {
 } from "@/components/ui/sheet"
 import logo from "@/app/images/logo.png"
 
+import { useSession,signOut } from "@/lib/auth-client"
+
 const navLinks = [
   { label: "Browse Jobs", href: "/jobs" },
   { label: "Company", href: "/company" },
@@ -44,6 +46,13 @@ function Logo() {
 }
 
 export function Navbar() {
+
+  const {data : session} = useSession()
+  console.log("Session data:", session);
+
+  const handleSignOut = async () => {
+    await signOut();
+  }
   return (
     <header className="sticky top-0 z-50 bg-background/70 px-4 py-4 backdrop-blur-md">
       <nav
@@ -64,7 +73,21 @@ export function Navbar() {
             </Link>
           ))}
           <Separator orientation="vertical" className="h-5 self-center" />
-          <Link
+          {
+            session?.user ? 
+            <>
+            <span>Welcome, {session.user.name}!</span>
+           <Button
+            onClick={handleSignOut}
+            nativeButton={false}
+            
+            className="h-9 px-4 text-sm font-medium text-indigo-500 transition-colors hover:text-indigo-400"
+          >
+            Sign Out
+          </Button>
+            </>
+            :<>
+            <Link
             href="/sign-in"
             className="text-sm font-medium text-indigo-500 transition-colors hover:text-indigo-400"
           >
@@ -79,6 +102,8 @@ export function Navbar() {
           >
             Get Started
           </Link>
+            </>
+          }
         </div>
 
         {/* Mobile navigation */}
